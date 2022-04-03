@@ -83,19 +83,19 @@ A pre-processor directive temporarily modifies a source file just before it is r
 \# include is a one such pre-processor directive that cut and pastes the contents of another file directly into the current file.
 
 
-### <stdio.h>
+### stdio.h
 provides `printf` and `scanf`
 
-### <assert.h>
+### assert.h
 provides the function `assert`
 
-### <limits.h>
+### limits.h
 provides the constants `INT_MAX` and `INT_MIN`
 
-### <stdbool.h>
+### stdbool.h
 provides the `bool` data type and constants `true` and `false`
 
-### <stdlib.h>
+### stdlib.h
 provides the constant `NULL`. provides `malloc`.
 
 
