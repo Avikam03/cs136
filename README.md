@@ -43,7 +43,7 @@ int my_add(int a, int b) {
 
 
 **Example**: Variable Declaration
-```C
+```c
 extern int g;
 
 int main(void) {
@@ -57,7 +57,7 @@ by declaring the function/variable above main, the function/variable are in scop
 
 IMP: Remember that Scope and Memory are different
 **Example**:
-```C
+```c
 int main (void) {
 	printf("%d", z);
 }
@@ -126,12 +126,12 @@ An *opaque structure* is like a "black box" that the client cannot "see" inside 
 They are implemented in C using incomplete declarations, where a structure is declared without any fields.
 
 **Example**:
-```C
+```c
 struct box           // Incomplete declaration
 ```
 
 With an incomplete declaration, only pointers to the structure can be defined.
-```C
+```c
 struct box my_box;      // INVALID
 struct box *box_ptr;    // VALID
 ```
@@ -170,7 +170,7 @@ In other words, if `p = q + i`, then `i = p - q`
 
 #### Swap function
 **Code**:
-```C
+```c
 void swap (int *a, int *b) {
 	int temp = *a;
 	*a = *b;
@@ -183,7 +183,7 @@ void swap (int *a, int *b) {
 General Idea: The smallest element is found and made the first element multiple times.
 
 **Code**:
-```C
+```c
 void selection_sort(int a[], int len) {
 	int pos = 0;
 	for (int i = 0; i < len - 1; i++) {
@@ -203,7 +203,7 @@ void selection_sort(int a[], int len) {
 General Idea: Each iteration assumes that the first i elements are sorted. the element `a[i]`  is inserted into the correct position each time.
 
 **Code:**
-```C
+```c
 void insertion_sort(int a[], int len) {
 	for (int i = 1; i < len; i++) {
 		for (int j = i; j > 0 && a[j - 1] > a[j]; j--) {
@@ -218,7 +218,7 @@ void insertion_sort(int a[], int len) {
 General Idea: It is a divide and conquer algo. an element is selected as a pivot, then the list is divided into 2 - greater than the pivot, and lesser than the pivot. both lists are sorted using this logic recursively.
 
 **Code:**
-```C
+```c
 void quicksort_range(int a[], int first, int last) {
 	if (last < first) return;
 
@@ -254,7 +254,7 @@ General idea: Divide and Conquer
 ![](http://mathurl.com/render.cgi?T%28n%29%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B%5Clog_2%7Bn%7D%7D%20O%281%29%20%3D%20O%28%5Clog%7Bn%7D%29%5Cnocache)
 
 **Code:**
-```C
+```c
 int binary_search(int item, const int a[], int len) {
 	int low = 0;
 	int high = len - 1;
@@ -319,7 +319,7 @@ where $k_1, k_1' \geq 1$  and $k_2  > 1$
 very important
 
 There are several approaches. The best one is:
-```C
+```c
 int max_subarray(const int[], int len) {
 	int maxsofar = 0;
 	int maxendhere = 0;
@@ -336,7 +336,7 @@ int max_subarray(const int[], int len) {
 ### Implementation of String Functions
 
 #### strlen
-```C
+```c
 int strlen(const char s[]) {
 	int index = 0;
 	while (s[index]) {
@@ -347,7 +347,7 @@ int strlen(const char s[]) {
 ```
 
 Using pointer arithmetic
-```C
+```c
 int strlen(const char s[]) {
 	char *new = s;
 	while (new) {
@@ -362,7 +362,7 @@ int strlen(const char s[]) {
 
 
 #### strcmp
-```C
+```c
 int strcmp(const char s1; const char s2) {
 	int i = 0;
 	while (s1[i] == s2[i] && s1[i]) {
@@ -378,7 +378,7 @@ Similarly, if `s2` has lesser characters than `s1`, the loop will break. since `
 
 
 ### strcpy
-```C
+```c
 int strcpy(char *dest, const char *src) {
 	char *d = dest;
 	while (*src) {
@@ -392,7 +392,7 @@ int strcpy(char *dest, const char *src) {
 ```
 
 ### strcat
-```C
+```c
 char *strcat(char *dest, const char *src) {
 	strcpy(dest + strlen(dest), src);
 	return dest;
@@ -411,7 +411,7 @@ These are stored in the read-only data section.
 
 
 **Good Example**:
-```C
+```c
 int main (void) {
 	char a[] = "mutable char array";
 	char *p = "constant string literal";
@@ -425,7 +425,7 @@ The second reserves space for a char pointer (p) in the stack frame (8 bytes), i
 It is helpful to think of arrays as **constant** pointers (that cannot change what it "points" at).
 
 **Example**:
-```C
+```c
 char a[] = "pointers are not arrays";
 char *p = "pointers are not arrays";
 char d[] = "different string";
@@ -446,7 +446,7 @@ In this case, since p is merely a pointer to a character, we can change what it 
 ### Array of Strings
 This is an array of pointers.
 
-```C
+```c
 char *aos[] = {"cs136", "is", "nice"};
 ```
 
@@ -502,7 +502,7 @@ Racket has a garbage collector, C does not.
 ### Merge Sort
 General idea: divide and conquer
 
-```C
+```c
 void merge(int dest[], const int src1[], int len1, const int src2[], int len2) {
 	int pos1 = 0;
 	int pos2 = 0;
@@ -543,7 +543,7 @@ Time Complexity: `O(n log n)` even in the worst case
 
 
 ### strdup
-```C
+```c
 char *strdup (const char *s) {
 	char *newstr = malloc((strlen(s) + 1) *sizeof(char));
 	strcpy(newstr, s);
@@ -563,7 +563,7 @@ On the other hand, if the size is made smaller,  extraneous memory is discarded.
 
 
 ### Doubling Strategy
-```C
+```c
 char *read_str(void) {
 	char c = 0;
 	if (scanf(" %c", &c) != 1) return NULL;
