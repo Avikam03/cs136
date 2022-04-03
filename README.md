@@ -4,7 +4,7 @@
 
 # CS 136 Notes
 
-A list of definitions from the cs lecture notes slides.
+A list of definitions and other stuff that I think is important or I can't remember from the cs lecture notes slides.
 
 ### Modules
 $$\text{A module provides a collection of functions that share a common aspect or purpose}$$
@@ -96,7 +96,7 @@ provides the constants `INT_MAX` and `INT_MIN`
 provides the `bool` data type and constants `true` and `false`
 
 ### <stdlib.h>
-provides the constant `NULL`
+provides the constant `NULL`. provides `malloc`.
 
 
 
@@ -307,6 +307,7 @@ where $k_1, k_1' \geq 1$  and $k_2  > 1$
 
 
 
+
 ### The maximum subarray problem
 very important
 
@@ -447,6 +448,145 @@ Though it is not an actual 2D array, elements can be accessed using 2D array syn
 
 **Example**:
 `aos[1][1]` is 's'
+
+
+
+
+### The heap
+- The heap can be thought of as a large pool of memory that is available to a program.
+- Memory is ***allocated*** from the heap upon request.
+- This memory can be *borrowed* and *returned* back to the heap when it is no longer needed (deallocation).
+- Returned memory may be reused for a future allocation.
+
+
+### Advantages of heap-allocated memory
+- **Dynamic**: The allocation size can be determined at run time (while the program is running).
+- **Resizable**: A heap allocation can be resized.
+- **Duration**: Heap allocations persist until they are "freed". A function can create multiple data structures using allocation that can exist even after the function returns.
+- **Safety**: If memory runs out, it can be detected and handled properly (unlike stack overflows).
+
+
+Heap memory provided by malloc is **unitialized**.
+
+
+### Disadvantage of heap-allocated memory
+After multiple allocations and deallocations, the heap can become fragmented, which may affect the performance of `malloc`.
+
+
+
+General Note:
+- An unsuccessful call to `malloc` returns `NULL`.
+- `malloc` and `free` are both considered O(1).
+- A pointer to a freed allocation is known as a “dangling pointer”. It is often good style to assign NULL to a dangling pointer.
+
+
+### Memory Leak
+A memory leak occurs when allocated memory is not eventually freed.
+
+
+####  Garbage Collection
+A garbage collector detects when memory is no longer being used and automatically frees memory and returns it to heap.
+
+**Disadvantage**: It is slow and affects performance. 
+
+Racket has a garbage collector, C does not.
+
+
+### Merge Sort
+General idea: divide and conquer
+
+```C
+void merge(int dest[], const int src1[], int len1, const int src2[], int len2) {
+	int pos1 = 0;
+	int pos2 = 0;
+	for (int i = 0; i < len + len2; i++) {
+		if (pos2 == len2 || (pos1 < len1  && src1[pos1] < src2[pos2])) {
+			dest[i] = src1[pos1];
+			pos1++;
+		} else {
+			dest[i] = src2[pos2];
+			pos2++;
+		}
+	}
+}
+
+void merge_sort(int a[], int len) {
+	if (len <= 1) return;
+	int llen = len/2;
+	int rlen = len - llen;
+
+	int *left = malloc(llen *sizeof(int));
+	int *right = malloc(rrlen * sizeof(int));
+
+	for (int i = 0; i < llen; i++) left[i] = a[i];
+	for (int i = 0; i < rlen; i++) right[i] = a[i + llen];
+
+	merge_sort(left, llen);
+	merge_sort(right, rlen);
+
+	merge(a, left, llen, right, rlen);
+	
+	free(left); 
+	free(right);
+}
+
+```
+
+Time Complexity: `O(n log n)` even in the worst case
+
+
+### strdup
+```C
+char *strdup (const char *s) {
+	char *newstr = malloc((strlen(s) + 1) *sizeof(char));
+	strcpy(newstr, s);
+	return newstr;
+}
+```
+
+
+### realloc
+A realloc can be though of as a `malloc`, then `copy`, then a `free` - all combined into one function.
+
+It is extremeley important to return the address returned by realloc as if additional memory is requested, then the location of the data in the heap might change. 
+
+On the other hand, if the size is made smaller,  extraneous memory is discarded.
+
+> Time:  O(n), where n is min(newsize, oldsize)
+
+
+### Doubling Strategy
+```C
+char *read_str(void) {
+	char c = 0;
+	if (scanf(" %c", &c) != 1) return NULL;
+	int maxlen = 1;
+	int len = 1;
+	char *str = malloc(maxlen * sizeof(char));
+	str[0] = c;
+	while (1) {
+		if (scanf("%c", &c) != 1) break;
+		if (c == ' ' || c == '\n') break;
+		if (len == maxlen) {
+			maxlen *= 2;
+			str = realloc(str, maxlen * sizeof(char));
+		}
+		len++;
+		str[len - 1] = c;
+	}
+	str = realloc(str, (len + 1) * sizeof(char));
+	str[len] = '\0';
+	return str;
+}
+```
+
+> Time: O(n)
+
+
+
+
+
+
 
 
 
