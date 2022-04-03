@@ -251,7 +251,7 @@ General Idea: Iterating through all elements in a list and checking when `item =
 Requires: List needs to be sorted
 General idea: Divide and Conquer
 
-![[Pasted image 20220403025229.png]]
+![](http://mathurl.com/render.cgi?T%28n%29%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B%5Clog_2%7Bn%7D%7D%20O%281%29%20%3D%20O%28%5Clog%7Bn%7D%29%5Cnocache)
 
 **Code:**
 ```C
