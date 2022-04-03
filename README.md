@@ -7,7 +7,8 @@
 A list of definitions and other stuff that I think is important or I can't remember from the cs lecture notes slides.
 
 ### Modules
-$$\text{A module provides a collection of functions that share a common aspect or purpose}$$
+A module provides a collection of functions that share a common aspect or purpose.
+
 C modules are also known as **libraries**.
 
 Other: 
@@ -22,10 +23,10 @@ Other:
 
 
 ### Declaration
-$$\text{A declaration introduces an identifier (“name”) into a program and specifies its type}$$
+A declaration introduces an identifier (“name”) into a program and specifies its type.
 
 ### Definition
-$$\text{A definition includes a declaration. It instructs C to "create" the identifier}$$
+A definition includes a declaration. It instructs C to "create" the identifier.
 
 **Example**: Function Declaration
 ```c
@@ -68,8 +69,9 @@ Here, since 2 is a global variable, it is in memory before the program is "run".
 
 
 ### Static
-$$\text{The keyword } \textbf{Static } \text{restricts the scope of a global identifier to the file(module) it is defined in.}$$
-{In other words, the keyword static assigns **module scope**
+The keyword **Static** restrics the scope of a global identifier to the file (module) it is defined in.
+
+In other words, the keyword static assigns **module scope**
 
 **Note**:
 Global identifiers are available to any file in the program (if declared)
@@ -80,7 +82,7 @@ Global identifiers are available to any file in the program (if declared)
 A pre-processor directive temporarily modifies a source file just before it is run (does not save the modifications).
 ```
 
-\# include is a one such pre-processor directive that cut and pastes the contents of another file directly into the current file.
+include is a one such pre-processor directive that cut and pastes the contents of another file directly into the current file.
 
 
 ### stdio.h
@@ -153,7 +155,10 @@ ADTs are data storage modules that only allow the access to the data through int
 
 ### Pointer Arithmetic Rules
 - When adding an integer `i` to a pointer `p`, the address computed by `p+i` in C is given in "normal" arithmetic by:
-$$p + i \times \text{sizeof}(*p)$$
+```
+p + i  * sizeof(*p)
+```
+
 - Subtracting an integer from a pointer `p-i` works in the same way.
 - Mutable pointers can be incremented (or decremented). `++p` is the same as `p = p + 1`
 - You cannot add 2 pointers
@@ -245,7 +250,9 @@ General Idea: Iterating through all elements in a list and checking when `item =
 ### Binary Search
 Requires: List needs to be sorted
 General idea: Divide and Conquer
-$$T(n) = \sum_{i = 1}^{\log_2{n}} O(1) = O(\log{n})$$
+
+![[Pasted image 20220403025229.png]]
+
 **Code:**
 ```C
 int binary_search(int item, const int a[], int len) {
