@@ -73,6 +73,7 @@ int g = 7;
 by declaring the function/variable above main, the function/variable are in scope in the main function even though they are defined below the main function
 
 IMP: Remember that Scope and Memory are different
+
 **Example**:
 ```c
 int main (void) {
@@ -421,8 +422,12 @@ char *strcat(char *dest, const char *src) {
 C strings in quotations that in expressions are known as string literals
 
 **Example:**
-`printf("literal\n");`
-`printf("literal %s\n", "another literal");`
+```c
+printf("literal\n");
+```
+```c
+printf("literal %s\n", "another literal");
+```
 
 These are stored in the read-only data section.
 
@@ -797,4 +802,6 @@ void generic_map (void *arr, int len, size_t size, void(*map_function)(void *)) 
 ```
 
 
+
+Good luck for finals :)
 
