@@ -6,6 +6,23 @@
 
 A list of definitions and other stuff that I think is important or I can't remember from the cs lecture notes slides.
 
+
+### Whitespace in scanf
+When reading an int with `scanf("%d")`, C ignores any whitespace (space and newlines) that appear before the next int.
+
+When reading in a char, you may or may not want to ignore whitespace: it depends on your application
+
+```c 
+// reads in next character (may be whitespace character)
+count = scanf("%c", &c);
+
+// reads in next character, ignoring whitespace
+count = scanf(" %c", &c);
+```
+
+The extra leading space in the second example indicates that leading whitespace is ignored.
+
+
 ### Modules
 A module provides a collection of functions that share a common aspect or purpose.
 
@@ -475,6 +492,24 @@ Though it is not an actual 2D array, elements can be accessed using 2D array syn
 
 Heap memory provided by malloc is **unitialized**.
 
+## malloc
+The malloc (memory allocation) function obtains memory from the heap. it is provided in `<stdlib.h>`.
+
+**Example**:
+```c
+int *my_array = malloc(100 *sizeof(int));
+```
+
+Strictly speaking, the type of the malloc parameter is `size_t`, which is a special type produced by the `sizeof` operator.
+
+`size_t` and `int` are different types of integers.
+
+The way to print `size_t` using printf is `%zd`.
+
+**Declaration of malloc is**:
+```c
+void *malloc(size_t s);
+```
 
 ### Disadvantage of heap-allocated memory
 After multiple allocations and deallocations, the heap can become fragmented, which may affect the performance of `malloc`.
@@ -591,10 +626,175 @@ char *read_str(void) {
 
 
 
+## Trees
+
+**Unbalanced Trees**
+
+While discussing the efficiency of `bst_insert`, we realise that the worst case is when the tree is unbalanced, and every node in the tree must be visited.
+
+![](https://i.ibb.co/gb1D3DP/image.png)
+
+In this example, the running time of `bst_insert` is `O(h)`: it depends more on the height of the tree (h) than the number of nodes in the tree.
+
+The definition of a **balanced tree** is a tree where the height (h) is `O(log n)`.
+
+Conversely, an unbalanced tree is a tree with a height that is not `O(log n)`. The height of an unbalanced tree is `O(n)`.
+
+A **self-balancing** tree “re-arranges” the nodes to ensure that tree is always balanced.
 
 
+### Sequenced and Unsequenced Data
+- If the original sequencing is important, we call the type of data ***sequenced***
+- If it's a list of things in a random order, we call the type of data ***unsequenced*** or "rearrangable".
+
+If the data is sequenced, then a data structure that *sorts* the data (eg: BST) is likely not an appropriate choice. Arrays and linked lists are better suited for sequenced data.
 
 
+**Data structure comparison: sequenced data**
+
+| Function  |  Dynamic Array |  Linked list |
+|---|---|---|
+| item_at | O(1)   | O(n)  |
+| search  | O(n)  | O(n)  |
+| insert_at  | O(n)  | O(n)  |
+| insert_front | O(n)   | O(1)  |
+| insert_back  | O(1)  | O(1)  |
+| remove_at  | O(n)  | O(n)  |
+| remove_front  | O(n)  | O(1)  |
+| remove_back  | O(1)  | O(1)  |
+
+
+**Data structure comparison: unsequenced data**
+
+| Function |  Sorted Dynamic Array |  Sorted Linked list | Unbalanced BST | Self-Balancing BST |
+|---|---|---|---|---|
+| search  | O(log n)  | O(n)  | O(n) | O(log n) |
+| insert  | O(n)  | O(n)  | O(n) | O(log n) |
+| remove | O(n)   | O(n) | O(n) | O(log n) |
+| select (kth element)  | O(1)  | O(n) | O(n) | O(log n) |
+
+
+### Void Pointers
+The **void** pointer is the closest c has to a "generic" type. void pointers can store the address or point at any type of data.
+
+```c
+int i = 42;
+int *pi = &i;
+
+struct posn p = {3, 4};
+
+void *vp = NULL;
+vp = &i;
+vp = &p;
+vp = pi;
+vp = &pi;
+vp = &vp;
+```
+
+- void pointers can not point at functions.
+- void pointers can not be dereferenced.
+
+The way to dereference void points indrectly is to first assign them to the correct type of pointer variable, then dereference the new variable.
+
+**Example:**
+- malloc is a good example of this
+
+```c
+int i = 42;
+void *vp = &i;
+
+int *ip = vp;
+int j = *ip;
+*ip = 13;
+```
+
+This kind of behaviour is not safe and should only be used when sure of the type of data.
+
+### qsort
+- included in `<stdlib.h>`.
+- sorts an array of any type in increasing order
+
+```c
+void qsort(void *arr, int len, size_t size, int(*compare)(const void *, const void *));
+```
+
+where:
+`arr` is a pointer to the void array.
+`size` is size of each element.
+`compare` is a function that compares elements (similar to how strcmp does).
+
+**Example:**
+```c
+#include <stdlib.h>
+
+int compare_ints (const void *a, const void *b) {
+	int *newa = a;
+	int *newb = b;
+	return *newa - *newb;
+}
+
+int main (void) {
+	int a[7] = {1, 2, 3, 4, 5, 6, 7};
+	for (int i = 0; i < 7; i++) {
+		printf("%d", a[i]);
+	}
+	printf("\n");
+	qsort(a, 7, sizeof(int), compare_ints);
+	for (int i = 0; i < 7; i++) {
+		printf("%d", a[i]);
+	}
+}
+
+```
+
+Similarly, with chars
+
+**Example:**
+```c
+#include <stdlib.h>
+
+int compare_chars (const void *a, const void *b) {
+	char *newa = a;
+	char *newb = b;
+	return *newa - *newb;
+}
+
+int main (void) {
+	int a[] = "word";
+	printf("%s\n", a);
+	qsort(a, strlen(a), sizeof(char), compare_chars);
+	printf("%s\n", a);
+}
+
+```
+
+
+### bsearch
+Generic binary search that either returns a pointer to the key in the sorted array if found, or returns a NULL if not found.
+- included in `<stdlib.h>`
+
+```c
+void *bsearch (const void *key, const void *arr, int len; size_t size, int (*compare)(const void *, const void*));
+```
+
+### memcpy
+Generic strcpy. copies `size` bytes from a source to destination.
+
+```c
+void *memcpy(void *dest, const void *src, size_t, size);
+```
+
+
+### generic map
+```c
+void generic_map (void *arr, int len, size_t size, void(*map_function)(void *)) {
+	char *arr_base = arr;
+	for (int i = 0; i < len; i++) {
+		map_function(arr_base + i * size);
+	}
+}
+
+```
 
 
 
