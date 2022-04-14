@@ -10,10 +10,11 @@ A list of definitions and other stuff that I think is important or I can't remem
 two tricks from course notes:
 - **read backwards**. E.g. `const int *p` = p is a pointer to an int that is constant.
 - `“const applies to the type to the left of it, unless it’s first, and then it applies to the type to the right of it”`.
-	- While this one didn't click with me, it does allow a cool not-coming-in-exam thing: `int const i = 42` is equivalent to `const int i = 42
+While this one didn't click with me, it does allow a cool not-coming-in-exam thing: `int const i = 42` is equivalent to `const int i = 42
 - `const int *p` -> p is a pointer to an integer which is constant. That is, we cannot change the int via p. But p is still mutable.
 - `int * const p = &i` -> p always points at the int; i can be modified via p.
 - `const int * const p` -> we can neither _change the int via p_ nor _change where p points to_
+
 
 ### Whitespace in scanf
 When reading an int with `scanf("%d")`, C ignores any whitespace (space and newlines) that appear before the next int.
@@ -437,7 +438,7 @@ printf("literal\n");
 printf("literal %s\n", "another literal");
 ```
 
-These are stored in the read-only data section.
+These are stored in the **read-only data** section.
 
 
 **Good Example**:
@@ -638,8 +639,75 @@ char *read_str(void) {
 > Time: O(n)
 
 
+### Node augmentation strategy
+In a node augmentation strategy, each node is augmented to include additional information about the node or structure.
+
+**Example:**
+Dictionary nodes include both a key and an value.
+Priority queue nodes can include the priority of the item.
+
 
 ## Trees
+Trees are very similar to linked lists- apart from the fact that each node can *link* to more than one node.
+
+![](https://i.ibb.co/BnZwKrS/image.png)
+
+
+**Facts about trees:**
+1) the root node has no parent.
+2) nodes can have multiple children.
+3) in a binary tree, the node has a maximum of 2 children.
+4) a leaf node has no children.
+5) the height of a tree is the maximum possible number of nodes from the root to a leaf (inclusive).
+6) the height of an empty tree is 0.
+7) the number of nodes is known as the node count.
+
+
+### Binary Search Tree
+- The node count of a binary tree of height h is at most 2h-1.
+- The node count of a binary tree of height h is at least h.
+- A binary tree of height h has at most $2^{h-1}$ leaf nodes (for h > 0).
+
+
+### Inserting into a binary search tree
+```c
+void insert_bstnode(int i, struct bst *t) {
+	struct bstnode x = bst->root;
+	if (x) {
+		while (1) {
+			if (x->item > i) {
+				if (!x->left) {
+					x->left = malloc(sizeof(struct bstnode));
+					x->left->item = i;
+					x->left->left = NULL;
+					x->left->right = NULL;
+					break;
+				} else {
+					x = x->left;
+				}
+			} else if (x->item < i) {
+				if (!x->right) {
+					x->right = malloc(sizeof(struct bstnode));
+					x->right->item = i;
+					x->right->left = NULL;
+					x->right->right = NULL;
+					break;
+				} else {
+					x = x->right;
+				}
+			} else {
+				break;
+			}
+		}
+	} else {
+		bst->root = malloc(sizeof(struct bstnode));
+		bst->root->item = i;
+		bst->root->left = NULL;
+		bst->root->right = NULL;
+	}
+}
+```
+
 
 **Unbalanced Trees**
 
@@ -654,6 +722,38 @@ The definition of a **balanced tree** is a tree where the height (h) is `O(log n
 Conversely, an unbalanced tree is a tree with a height that is not `O(log n)`. The height of an unbalanced tree is `O(n)`.
 
 A **self-balancing** tree “re-arranges” the nodes to ensure that tree is always balanced.
+
+
+### Count node augmentation
+popular tree node augmentation to store in each node the count (number of nodes) in its subtree.
+
+**Benefits:**
+1) makes retreival of number of nodes `O(1)`.
+2) allows implementation of select function (find item with index k) in `O(h)` time.
+
+
+**Select Function** (iterative approach. recursive version is in course notes)
+
+```c
+int select_node(int k, struct bstnode *node) {
+	assert(node && 0 <= k <= node->count);
+	struct bstnode dup = node;
+	int dupk = k;
+	int count = 0;
+	while (1) {
+		int left_count = dup->left->count;
+		if (k < count + left_count) {
+			dup = dup->left;
+		} else if (k > count + left_count) {
+			dup = dup->right;
+			count += left_count + 1;
+		} else {
+			return dup->item;
+		}
+	}	
+}
+```
+
 
 
 ### Sequenced and Unsequenced Data
