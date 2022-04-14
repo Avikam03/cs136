@@ -6,6 +6,30 @@
 
 A list of definitions and other stuff that I think is important or I can't remember from the cs lecture notes slides.
 
+### Static Typing
+***important***: this was a question on the midterm
+
+The typing system used in C where all identifiers have a specified type.
+
+**Example:**
+`int i = 0;`
+the type of the variable i is specified as an int and cannot change.
+
+
+### Pass by Value
+***important***: this was a question on the midterm
+
+The convention used in C, where C makes a copy of each argument value and places the copy in the stack frame.
+
+**Example:**
+```c
+int i = 3;
+foo(i);
+```
+
+The value of 3 is passed in `foo`, not the variblle i.
+
+
 ### Const with Pointers
 two tricks from course notes:
 - **read backwards**. E.g. `const int *p` = p is a pointer to an int that is constant.
@@ -149,6 +173,8 @@ There are 2 main benefits
 Following was a midterm question
 
 ### Opaque Structure
+***important***: this was a question on the midterm
+
 An *opaque structure* is like a "black box" that the client cannot "see" inside of.
 They are implemented in C using incomplete declarations, where a structure is declared without any fields.
 
@@ -172,6 +198,8 @@ A **transparent** structure on the other hand is one whose complete definition i
 ### Abstract Data Types
 ADTs are data storage modules that only allow the access to the data through interface functions (ADT operations). The underlying data structure and implementation of an ADT are hidden from the client (which provides flexibility and security). The best part about them is that clients can implement them with merely an abstract idea of the structure of the data. 
 
+### Collection ADTs
+A collection ADT is an ADT designed to store an arbirary number of items. Collection ADTs have well-defined operations and are useful in many applications.
 
 
 ### Arrays
@@ -300,9 +328,10 @@ int binary_search(int item, const int a[], int len) {
 ```
 
 
-Following was a midterm question
 
 ### Oversized Array
+***important***: this was a question on the midterm
+
 Because of the concept of pre-defined lengths of arrays, oversized arrays are used.
 
 They have more number of elements than are used. 
