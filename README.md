@@ -9,8 +9,8 @@ A list of definitions and other stuff that I think is important or I can't remem
 ### Const with Pointers
 two tricks from course notes:
 - **read backwards**. E.g. `const int *p` = p is a pointer to an int that is constant.
-- `“const applies to the type to the left of it, unless it’s first, and then it applies to the type to the right of it”`.
-While this one didn't click with me, it does allow a cool not-coming-in-exam thing: `int const i = 42` is equivalent to `const int i = 42
+- “const applies to the type to the left of it, unless it’s first, and then it applies to the type to the right of it”.
+	**Example**: `int const i = 42` is equivalent to `const int i = 42`
 - `const int *p` -> p is a pointer to an integer which is constant. That is, we cannot change the int via p. But p is still mutable.
 - `int * const p = &i` -> p always points at the int; i can be modified via p.
 - `const int * const p` -> we can neither _change the int via p_ nor _change where p points to_
